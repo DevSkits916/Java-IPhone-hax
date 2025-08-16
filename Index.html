@@ -1,0 +1,33 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Share Panel</title>
+<style>
+  body{font-family:-apple-system,system-ui;margin:0;padding:20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+  a{display:block;padding:12px 14px;border:1px solid #ddd;border-radius:10px;text-decoration:none}
+</style>
+<h2>Share Panel</h2>
+<label>GoFundMe link</label>
+<input id="u" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px"
+       value="https://gofund.me/4313293c">
+<p>Tap a service:</p>
+<div class="grid" id="links"></div>
+<script>
+function build(){
+  const raw = document.getElementById('u').value.trim();
+  let u = raw;
+  try{ const x=new URL(raw); x.searchParams.set('utm_source','facebook'); x.searchParams.set('utm_medium','social'); x.searchParams.set('utm_campaign','gfm_travis'); u=x.toString(); }catch{}
+  const L = [
+    ['Facebook','https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u)],
+    ['Messenger','https://www.facebook.com/dialog/send?link='+encodeURIComponent(u)+'&app_id=966242223397117&redirect_uri='+encodeURIComponent(u)],
+    ['WhatsApp','https://api.whatsapp.com/send?text='+encodeURIComponent('Help Travis & Loki\n'+u)],
+    ['X','https://twitter.com/intent/tweet?text='+encodeURIComponent('Help Travis & Loki\n'+u)],
+    ['Reddit','https://www.reddit.com/submit?url='+encodeURIComponent(u)+'&title='+encodeURIComponent('Help Travis & Loki')]
+  ];
+  const wrap = document.getElementById('links'); wrap.innerHTML='';
+  L.forEach(([label,href])=>{
+    const a=document.createElement('a'); a.href=href; a.target='_blank'; a.rel='noopener'; a.textContent=label; wrap.appendChild(a);
+  });
+}
+document.getElementById('u').addEventListener('input', build);
+build();
+</script>
