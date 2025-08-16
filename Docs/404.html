@@ -1,0 +1,17 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Redirect</title>
+<script>
+  // Redirect unknown routes back to the site root on GitHub Pages
+  // Works whether your site is at /<repo>/ or a custom domain
+  (function () {
+    var parts = location.pathname.split("/").filter(Boolean);
+    if (parts.length > 1) {
+      // likely /<user>.github.io/<repo>/...
+      location.replace("/" + parts[0] + "/" + parts[1] + "/");
+    } else {
+      location.replace("/");
+    }
+  })();
+</script>
+<noscript>Enable JavaScript.</noscript>
